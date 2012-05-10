@@ -1,0 +1,6 @@
+*.py[oc]
+
+.env
+.idea
+
+settings_local.py
