@@ -12,6 +12,14 @@ TEMPLATE_PATH = os.path.join(PROJECT_ROOT, 'templates')
 
 DATABASE_PATH = 'postgresql://user:password@localhost/twitter'
 
+# Hashtags and keywords for searching
+SEARCH_WORDS = ()
+
+TWITTER_CONSUMER_KEY = ''
+TWITTER_CONSUMER_SECRET = ''
+TWITTER_ACCESS_TOKEN = ''
+TWITTER_ACCESS_TOKEN_SECRET = ''
+
 try:
     from settings_local import *
 except ImportError:
