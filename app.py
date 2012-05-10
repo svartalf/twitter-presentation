@@ -4,14 +4,18 @@ import tornado.web
 from sqlalchemy.engine import create_engine
 from sqlalchemy.orm import scoped_session
 from sqlalchemy.orm.session import sessionmaker
+from sockjs.tornado.router import SockJSRouter
 
 import settings
 import controllers
 
-urlpatterns = (
+websocket = SockJSRouter(controllers.websocket.StreamConnection, '/stream')
+
+urlpatterns = [
+    (r'^/$', controllers.index.IndexHandler),
     (r'^/users/$', controllers.users.ListHandler),
     (r'^/users/(?P<user_id>\d+)/$', controllers.users.ReadHandler),
-)
+] + websocket.urls
 
 class Application(tornado.web.Application):
 

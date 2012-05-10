@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from . import users
+from . import users, index, websocket
 
-__all__ = ('users',)
+__all__ = ('users', 'index', 'websocket')

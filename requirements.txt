@@ -3,3 +3,4 @@ sqlalchemy-migrate==0.7.2
 psycopg2==2.4.5
 tweepy==1.9
 tornado==2.2.1
+-e git+git://github.com/mrjoes/sockjs-tornado.git#egg=sockjs
