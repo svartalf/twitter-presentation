@@ -4,6 +4,7 @@
         <title></title>
         <meta charset="utf-8">
         <link rel="stylesheet" href="{{ handler.static_url('css/bootstrap.min.css') }}" type="text/css">
+        <link rel="stylesheet" href="{{ handler.static_url('css/presentation.css') }}" type="text/css">
         <script type="text/javascript" src="{{ handler.static_url('js/libs/modernizr.js') }}"></script>
         <script type="text/javascript">
             'use strict';
@@ -13,9 +14,9 @@
                     '{{ handler.static_url('js/libs/sockjs-0.3.min.js') }}',
                     '{{ handler.static_url('js/libs/icanhaz-0.4.0.min.js') }}',
                     '{{ handler.static_url('js/libs/spine-1.0.6/spine.js') }}',
-                    '{{ handler.static_url('js/libs/spine-1.0.6/relation.js') }}',
-                    '{{ handler.static_url('js/libs/spine-1.0.6/manager.js') }}',
                     '{{ handler.static_url('js/libs/spine-1.0.6/ajax.js') }}',
+                    '{{ handler.static_url('js/libs/spine-1.0.6/manager.js') }}',
+                    '{{ handler.static_url('js/libs/spine-1.0.6/relation.js') }}',
                     '{{ handler.static_url('js/models.js') }}',
                     '{{ handler.static_url('js/controllers.js') }}'
                 ],
@@ -29,13 +30,14 @@
                 <div class="span2">
                     <img src="{{! profile_image_url }}" alt="{{! user }}">
                 </div>
-                <div class="span8">
+                <div class="span9">
+                    <a href="http://twitter.com/#!/{{! user }}" class="user">@{{! user }}</a>:
                     {{!& text }}
                 </div>
             </li>
         </script>
     </head>
-    <body class="">
+    <body class="container">
         <ul id="tweets-stream" class="unstyled"></ul>
     </body>
 </html>

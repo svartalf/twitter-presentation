@@ -16,8 +16,6 @@ websocket = SockJSRouter(controllers.websocket.StreamConnection, '/stream')
 
 urlpatterns = [
     (r'^/$', controllers.index.IndexHandler),
-    (r'^/users$', controllers.users.ListHandler),
-    (r'^/users/(?P<user_id>\d+)$', controllers.users.ReadHandler),
 ] + websocket.urls
 
 class Application(tornado.web.Application):

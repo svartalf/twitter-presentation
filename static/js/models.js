@@ -2,14 +2,15 @@
 
 var User = Spine.Model.sub();
 User.configure('User', 'name', 'profile_image_url');
-User.extend(Spine.Model.Ajax);
-User.extend({
-    url: '/users'
+User.include({
+    image: function() {
+        return this.profile_image_url.replace('normal', 'bigger');
+    }
 });
 
 var Tweet = Spine.Model.sub();
-Tweet.configure('Tweet', 'user', 'text', 'created_at');
-Tweet.belongsTo('user', 'User');
+Tweet.configure('Tweet', 'user_id', 'text', 'created_at');
+Tweet.belongsTo('user', 'User', 'user_id');
 Tweet.include({
     html: function() {
         var url_re = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/gi;

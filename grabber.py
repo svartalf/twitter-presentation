@@ -42,9 +42,10 @@ def search():
 
         for tweet in items:
             # TODO: user cache
-            user_exists = db.query(User.id).filter(User.id==tweet.from_user_id).count() > 0
-            if not user_exists:
-                db.add(User(id=tweet.from_user_id, name=tweet.from_user, profile_image_url=tweet.profile_image_url))
+            user = db.query(User).get(tweet.from_user_id)
+            if not user:
+                user = User(id=tweet.from_user_id, name=tweet.from_user, profile_image_url=tweet.profile_image_url)
+                db.add(user)
                 db.commit()
 
             if not db.query(Tweet.id).filter(Tweet.id==tweet.id).count():
@@ -54,12 +55,16 @@ def search():
                 publisher.send('twitter\x00%s' % json.dumps({
                     'class': 'Tweet',
                     'action': 'create',
-                    'id': tweet.id,
                     'data': {
                         'id': tweet.id,
                         'user_id': tweet.from_user_id,
+                        'user': {
+                            'id': tweet.from_user_id,
+                            'name': tweet.from_user,
+                            'profile_image_url': tweet.profile_image_url,
+                        },
                         'text': tweet.text,
-                        'created_at': int(time.mktime(tweet.created_at.timetuple())),
+                        'created_at': int(time.mktime(tweet.created_at.timetuple()))*1000,
                     }
                 }))
 

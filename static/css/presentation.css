@@ -1,0 +1,22 @@
+li {
+    border-bottom: 1px solid #eeeeee;
+    padding: 30px 0;
+}
+}
+
+.span2 {
+    text-align: center;
+}
+    .span2 img {
+        width: 100px;
+        height: 100px;
+        margin-top: 10px;
+    }
+
+.span9 {
+    font-size: 28px;
+    line-height: 38px;
+}
+    .span9 .user {
+        font-weight: bold;
+    }
