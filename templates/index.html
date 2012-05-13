@@ -11,19 +11,31 @@
                 load: [
                     '{{ handler.static_url('js/libs/jquery-1.7.2.min.js') }}',
                     '{{ handler.static_url('js/libs/sockjs-0.3.min.js') }}',
+                    '{{ handler.static_url('js/libs/icanhaz-0.4.0.min.js') }}',
                     '{{ handler.static_url('js/libs/spine-1.0.6/spine.js') }}',
                     '{{ handler.static_url('js/libs/spine-1.0.6/relation.js') }}',
+                    '{{ handler.static_url('js/libs/spine-1.0.6/manager.js') }}',
                     '{{ handler.static_url('js/libs/spine-1.0.6/ajax.js') }}',
-                    '{{ handler.static_url('js/controllers.js') }}',
-                    '{{ handler.static_url('js/models.js') }}'
+                    '{{ handler.static_url('js/models.js') }}',
+                    '{{ handler.static_url('js/controllers.js') }}'
                 ],
                 complete: function() {
                     new Stream('/stream');
                 }
             }]);
         </script>
+        <script id="tweet" type="text/html">
+            <li class="row" data-id="{{! id }}">
+                <div class="span2">
+                    <img src="{{! profile_image_url }}" alt="{{! user }}">
+                </div>
+                <div class="span8">
+                    {{!& text }}
+                </div>
+            </li>
+        </script>
     </head>
-    <body>
+    <body class="">
         <ul id="tweets-stream" class="unstyled"></ul>
     </body>
 </html>

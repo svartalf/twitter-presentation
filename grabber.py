@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 
+import json
 import time
 
+import zmq
 import tweepy
 from sqlalchemy.engine import create_engine
 from sqlalchemy.orm.session import sessionmaker
@@ -17,6 +19,10 @@ def search():
 
     engine = create_engine(settings.DATABASE_PATH, convert_unicode=True, echo=settings.DEBUG)
     db = sessionmaker(bind=engine)()
+
+    context = zmq.Context()
+    publisher = context.socket(zmq.PUB)
+    publisher.bind(settings.ZMQ_PUBLISHER)
 
     kwargs = {
         'q': ' OR '.join(settings.SEARCH_WORDS),
@@ -44,6 +50,18 @@ def search():
             if not db.query(Tweet.id).filter(Tweet.id==tweet.id).count():
                 db.add(Tweet(id=tweet.id, user_id=tweet.from_user_id, text=tweet.text, created_at=tweet.created_at))
                 db.commit()
+
+                publisher.send('twitter\x00%s' % json.dumps({
+                    'class': 'Tweet',
+                    'action': 'create',
+                    'id': tweet.id,
+                    'data': {
+                        'id': tweet.id,
+                        'user_id': tweet.from_user_id,
+                        'text': tweet.text,
+                        'created_at': int(time.mktime(tweet.created_at.timetuple())),
+                    }
+                }))
 
         time.sleep(5)
 

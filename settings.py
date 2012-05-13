@@ -12,6 +12,8 @@ TEMPLATE_PATH = os.path.join(PROJECT_ROOT, 'templates')
 
 DATABASE_PATH = 'postgresql://user:password@localhost/twitter'
 
+ZMQ_PUBLISHER = 'tcp://*:14412'
+
 # Hashtags and keywords for searching
 SEARCH_WORDS = ()
 
