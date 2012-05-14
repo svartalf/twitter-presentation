@@ -2,16 +2,27 @@
 
 var Stream = Spine.Controller.sub({
 
+    _url: null,
+
     el: $('#tweets-stream'),
 
     queue: [],
 
     init: function(url) {
-        this.socket = new SockJS(url);
-        this.socket.onmessage = this.proxy(this.message);
+        this._url = url;
 
         Tweet.bind('create', this.proxy(this.create));
         window.setInterval(this.proxy(this.show), 5000);
+
+        this._connect();
+    },
+
+    _connect: function() {
+        this.socket = new SockJS(this._url);
+        this.socket.onmessage = this.proxy(this.message);
+        this.socket.onclose = function() {
+            window.setTimeout(this._connect(), 5000);
+        }
     },
 
     message: function(response) {
