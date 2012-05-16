@@ -1,7 +1,10 @@
+body {
+    overflow: hidden;
+}
+
 li {
     border-bottom: 1px solid #eeeeee;
     padding: 30px 0;
-}
 }
 
 .span2 {
@@ -19,4 +22,30 @@ li {
 }
     .span9 .user {
         font-weight: bold;
+    }
+
+#pause-overlay {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: none;
+    background-color: #ffffff;
+    text-align: center;
+}
+    #pause-overlay h1 {
+        font-size: 128px;
+        margin-top: 180px;
+        padding-left: 10px;
+    }
+    #pause-overlay h2 {
+        clear: both;
+        margin-top: 140px;
+        font-size: 80px;
+    }
+    #pause-overlay h3 {
+        line-height: 27px;
+        font-size: 48px;
+        margin-top: 80px;
     }
