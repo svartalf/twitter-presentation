@@ -41,6 +41,10 @@ def search():
             continue
 
         for tweet in items:
+            if tweet.text.startswith('RT ') or tweet.to_user_id:
+                # Skip retweets and replies
+                continue
+
             # TODO: user cache
             user = db.query(User).get(tweet.from_user_id)
             if not user:
