@@ -8,6 +8,7 @@ from tornado.web import RequestHandler
 
 import settings
 from models import User, Tweet
+from utils import require_basic_auth
 
 
 class EmptyTweet(object):
@@ -17,6 +18,7 @@ class EmptyTweet(object):
         return False
 
 
+@require_basic_auth
 class BanHandler(RequestHandler):
 
     def get(self, *args, **kwargs):

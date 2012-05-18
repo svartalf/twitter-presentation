@@ -22,6 +22,10 @@ TWITTER_CONSUMER_SECRET = ''
 TWITTER_ACCESS_TOKEN = ''
 TWITTER_ACCESS_TOKEN_SECRET = ''
 
+# For ban page
+AUTH_USER = None
+AUTH_PASSWORD = None
+
 try:
     from settings_local import *
 except ImportError:
