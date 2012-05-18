@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import datetime
+
 from sqlalchemy.engine import create_engine
 from sqlalchemy.orm.session import sessionmaker
 from tornado.web import RequestHandler
@@ -8,21 +10,27 @@ import settings
 from models import User, Tweet
 
 
+class EmptyTweet(object):
+    yesterday = datetime.datetime.now()-datetime.timedelta(days=1)
+
 class BanHandler(RequestHandler):
 
     def get(self, *args, **kwargs):
         engine = create_engine(settings.DATABASE_PATH, convert_unicode=True, echo=settings.DEBUG)
         db = sessionmaker(bind=engine)()
 
+        empty_tweet = EmptyTweet()
+
         queryset = list(db.query(User))
         for user in queryset:
             try:
                 user.latest_tweet = db.query(Tweet).filter(Tweet.user_id==user.id).order_by(Tweet.id.desc())[0]
             except IndexError:
-                user.latest_tweet = None
+                user.latest_tweet = empty_tweet
 
-        users = sorted([x for x in queryset if not x.is_banned], key=lambda x: x.latest_tweet and x.latest_tweet.created_at)
-        banned_users = sorted([x for x in queryset if x.is_banned], key=lambda x: x.latest_tweet and x.latest_tweet.created_at)
+        cmp_func = lambda x: x.latest_tweet is not empty_tweet and x.latest_tweet.created_at
+        users = sorted([x for x in queryset if not x.is_banned], key=cmp_func)
+        banned_users = sorted([x for x in queryset if x.is_banned], key=cmp_func)
 
         context = {
             'users': users,
