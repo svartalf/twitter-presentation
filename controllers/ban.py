@@ -19,10 +19,10 @@ class BanHandler(RequestHandler):
             try:
                 user.latest_tweet = db.query(Tweet).filter(Tweet.user_id==user.id).order_by(Tweet.id.desc())[0]
             except IndexError:
-                continue
+                user.latest_tweet = None
 
-        users = sorted([x for x in queryset if not x.is_banned], key=lambda x: x.latest_tweet.created_at)
-        banned_users = [x for x in queryset if x.is_banned]
+        users = sorted([x for x in queryset if not x.is_banned], key=lambda x: x.latest_tweet and x.latest_tweet.created_at)
+        banned_users = sorted([x for x in queryset if x.is_banned], key=lambda x: x.latest_tweet and x.latest_tweet.created_at)
 
         context = {
             'users': users,

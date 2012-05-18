@@ -8,13 +8,15 @@
         <script type="text/javascript" src="{{ handler.static_url('js/libs/jquery-1.7.2.min.js') }}"></script>
         <script type="text/javascript">
             $(function() {
-                $('#users li a').click(function() {
+                $('#users li a').click(function(event) {
+                    event.preventDefault();
                     var self = $(this);
                     $.post('.', {user_id: self.parent().attr('data-id'), banned: 1}, function() {
                         self.parents('li').prependTo($('#banned'));
                     });
                 });
-                $('#banned li a').click(function() {
+                $('#banned li a').click(function(event) {
+                    event.preventDefault();
                     var self = $(this);
                     $.post('.', {user_id: self.parent().attr('data-id'), banned: 0}, function() {
                         self.parents('li').prependTo($('#users'));
@@ -30,9 +32,11 @@
                     <a href="#" class="span1">
                         <img src="{{ user.profile_image_url }}" alt="">
                     </a>
+                    {% if user.latest_tweet %}
                     <div class="span4">
                         {{ user.latest_tweet.text }}
                     </div>
+                    {% end %}
                 </li>
             {% end %}
         </ul>
@@ -42,9 +46,11 @@
                 <a href="#" class="span1">
                     <img src="{{ user.profile_image_url }}" alt="">
                 </a>
+                {% if user.latest_tweet %}
                 <div class="span4">
                     {{ user.latest_tweet.text }}
                 </div>
+                {% end %}
             </li>
             {% end %}
         </ul>
