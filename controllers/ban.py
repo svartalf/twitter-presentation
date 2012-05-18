@@ -11,7 +11,11 @@ from models import User, Tweet
 
 
 class EmptyTweet(object):
-    yesterday = datetime.datetime.now()-datetime.timedelta(days=1)
+    created_at = datetime.datetime.now()-datetime.timedelta(days=1)
+
+    def __nonzero__(self):
+        return False
+
 
 class BanHandler(RequestHandler):
 
@@ -28,8 +32,7 @@ class BanHandler(RequestHandler):
             except IndexError:
                 user.latest_tweet = empty_tweet
 
-        cmp_func = lambda x: x.latest_tweet is not empty_tweet and x.latest_tweet.created_at
-        users = sorted([x for x in queryset if not x.is_banned], key=cmp_func)
+        cmp_func = lambda x: x.latest_tweet.created_at        users = sorted([x for x in queryset if not x.is_banned], key=cmp_func)
         banned_users = sorted([x for x in queryset if x.is_banned], key=cmp_func)
 
         context = {
