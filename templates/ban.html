@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <link rel="stylesheet" href="{{ handler.static_url('css/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ handler.static_url('css/ban.css') }}">
+        <script type="text/javascript" src="{{ handler.static_url('js/libs/jquery-1.7.2.min.js') }}"></script>
+        <script type="text/javascript">
+            $(function() {
+                $('#users li a').click(function() {
+                    var self = $(this);
+                    $.post('.', {user_id: self.parent().attr('data-id'), banned: 1}, function() {
+                        self.parents('li').prependTo($('#banned'));
+                    });
+                });
+                $('#banned li a').click(function() {
+                    var self = $(this);
+                    $.post('.', {user_id: self.parent().attr('data-id'), banned: 0}, function() {
+                        self.parents('li').prependTo($('#users'));
+                    });
+                });
+            });
+        </script>
+    </head>
+    <body class="row container-fluid">
+        <ul id="users" class="span6">
+            {% for user in users %}
+                <li class="row" data-id="{{ user.id }}">
+                    <a href="#" class="span1">
+                        <img src="{{ user.profile_image_url }}" alt="">
+                    </a>
+                    <div class="span4">
+                        {{ user.latest_tweet.text }}
+                    </div>
+                </li>
+            {% end %}
+        </ul>
+        <ul id="banned" class="span6">
+            {% for user in banned_users %}
+            <li class="row" data-id="{{ user.id }}">
+                <a href="#" class="span1">
+                    <img src="{{ user.profile_image_url }}" alt="">
+                </a>
+                <div class="span4">
+                    {{ user.latest_tweet.text }}
+                </div>
+            </li>
+            {% end %}
+        </ul>
+    </body>
+</html>

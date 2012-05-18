@@ -9,7 +9,7 @@ from zmq.eventloop import ioloop
 
 import settings
 #import controllers
-from controllers import index, websocket
+from controllers import index, websocket, ban
 
 ioloop.install()
 
@@ -17,6 +17,7 @@ websocket = SockJSRouter(websocket.StreamConnection, '/stream')
 
 urlpatterns = [
     (r'^/$', index.IndexHandler),
+    (r'^/ban/$', ban.BanHandler),
 ] + websocket.urls
 
 class Application(tornado.web.Application):
