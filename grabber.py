@@ -48,13 +48,16 @@ def search():
             # TODO: user cache
             user = db.query(User).get(tweet.from_user_id)
             if not user:
-                user = User(id=tweet.from_user_id, name=tweet.from_user, profile_image_url=tweet.profile_image_url)
+                user = User(id=tweet.from_user_id, name=tweet.from_user, profile_image_url=tweet.profile_image_url, is_banned=False)
                 db.add(user)
                 db.commit()
 
             if not db.query(Tweet.id).filter(Tweet.id==tweet.id).count():
                 db.add(Tweet(id=tweet.id, user_id=tweet.from_user_id, text=tweet.text, created_at=tweet.created_at))
                 db.commit()
+
+                if user.is_banned:
+                    continue
 
                 publisher.send('twitter\x00%s' % json.dumps({
                     'class': 'Tweet',

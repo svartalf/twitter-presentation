@@ -13,6 +13,7 @@ class User(Model):
     id = sqlalchemy.Column(sqlalchemy.BigInteger, primary_key=True)
     name = sqlalchemy.Column(sqlalchemy.String(30))
     profile_image_url = sqlalchemy.Column(sqlalchemy.String(255))
+    is_banned = sqlalchemy.Column(sqlalchemy.Boolean())
 
 
 class Tweet(Model):
