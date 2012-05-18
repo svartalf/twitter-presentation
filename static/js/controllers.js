@@ -49,12 +49,12 @@ var Stream = Spine.Controller.sub({
     },
 
     create: function(object, event) {
-        this.queue.push(object);
+        this.queue.unshift(object);
         this.__update_counter();
     },
 
     show: function() {
-        var object = this.queue.shift();
+        var object = this.queue.pop();
         if (!object)
             return;
 

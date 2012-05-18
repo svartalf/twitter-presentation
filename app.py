@@ -8,14 +8,15 @@ from sockjs.tornado.router import SockJSRouter
 from zmq.eventloop import ioloop
 
 import settings
-import controllers
+#import controllers
+from controllers import index, websocket
 
 ioloop.install()
 
-websocket = SockJSRouter(controllers.websocket.StreamConnection, '/stream')
+websocket = SockJSRouter(websocket.StreamConnection, '/stream')
 
 urlpatterns = [
-    (r'^/$', controllers.index.IndexHandler),
+    (r'^/$', index.IndexHandler),
 ] + websocket.urls
 
 class Application(tornado.web.Application):
