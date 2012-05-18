@@ -32,7 +32,8 @@ class BanHandler(RequestHandler):
             except IndexError:
                 user.latest_tweet = empty_tweet
 
-        cmp_func = lambda x: x.latest_tweet.created_at        users = sorted([x for x in queryset if not x.is_banned], key=cmp_func)
+        cmp_func = lambda x: x.latest_tweet.created_at
+        users = sorted([x for x in queryset if not x.is_banned], key=cmp_func)
         banned_users = sorted([x for x in queryset if x.is_banned], key=cmp_func)
 
         context = {
