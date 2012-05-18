@@ -60,12 +60,19 @@ var Stream = Spine.Controller.sub({
 
         this.__update_counter();
 
-        return this.stream.prepend(ich.tweet({
+        this.stream.prepend(ich.tweet({
             id: object.id,
             user: object.user().name,
             profile_image_url: object.user().image(),
             text: object.html()
         }));
+
+        this.stream.find('li').each(function(idx, el) {
+            if (el.position().top+el.height() > $(window).height()) {
+                Tweet.destroy(parseInt(el.data('data-id')));
+                el.remove();
+            }
+        });
     },
 
     pause: function() {
