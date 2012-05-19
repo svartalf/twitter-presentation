@@ -21,8 +21,11 @@ def search():
     db = sessionmaker(bind=engine)()
 
     context = zmq.Context()
-    publisher = context.socket(zmq.PUB)
-    publisher.bind(settings.ZMQ_PUBLISHER)
+    #publisher = context.socket(zmq.PUB)
+    #publisher.bind(settings.ZMQ_PUBLISHER)
+
+    sender = context.socket(zmq.PUSH)
+    sender.connect('tcp://*:14115')
 
     kwargs = {
         'q': ' OR '.join(settings.SEARCH_WORDS),
@@ -59,7 +62,7 @@ def search():
                 if user.is_banned:
                     continue
 
-                publisher.send('twitter\x00%s' % json.dumps({
+                sender.send('twitter\x00%s' % json.dumps({
                     'class': 'Tweet',
                     'action': 'create',
                     'data': {

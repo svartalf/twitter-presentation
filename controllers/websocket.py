@@ -15,12 +15,11 @@ class StreamConnection(SockJSConnection):
 
         context = zmq.Context()
         socket = context.socket(zmq.SUB)
-        socket.connect(settings.ZMQ_PUBLISHER)
+        socket.connect('tcp://*:14116')
         socket.setsockopt(zmq.SUBSCRIBE, 'twitter')
 
         self.stream = ZMQStream(socket)
         self.stream.on_recv(self.incoming)
-
 
     def incoming(self, message):
         self.send(json.loads(message[0].split('\x00')[1]))
